@@ -1,0 +1,6 @@
+extracting ImageNet EfficientNet-B0 features: train 9873, val 2396, test 4326 (no OCT training, no labels)
+seed 0: cluster -> class ['CNV', 'NORMAL', 'DRUSEN'], test accuracy 0.5062, macro-F1 0.4929, AUC 0.6941, under-grading 0.2490
+seed 1: cluster -> class ['CNV', 'DRUSEN', 'NORMAL'], test accuracy 0.5062, macro-F1 0.4928, AUC 0.6941, under-grading 0.2495
+seed 2: cluster -> class ['CNV', 'DRUSEN', 'NORMAL'], test accuracy 0.5060, macro-F1 0.4923, AUC 0.6940, under-grading 0.2510
+
+mean +/- SD over k-means seeds: accuracy 50.62 +/- 0.01, macro_f1 49.27 +/- 0.03, macro_auc 69.41 +/- 0.01, under_grading_rate 24.98 +/- 0.10

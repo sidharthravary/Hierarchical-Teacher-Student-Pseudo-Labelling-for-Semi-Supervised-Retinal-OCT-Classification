@@ -1,0 +1,11 @@
+# large or redistributable-restricted files (see README)
+data/images.npy
+data/*.pth
+papers/
+
+# local logs containing machine-specific paths
+outputs/run_all_log*.txt
+
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

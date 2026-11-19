@@ -1,0 +1,35 @@
+=== supervised_f010_s2: supervised EfficientNet-B0, 10% of training labels, seed 2 ===
+labelled 981 {'NORMAL': 466, 'DRUSEN': 317, 'CNV': 198} | unlabelled pool 8892 | val 2396 | test 4326
+round 0 teacher: training supervised_f010_s2 on 981 labelled scans
+    epoch  1  loss 0.1862  val acc 0.8101  val macro-F1 0.8058 *  lr 1e-03  76s
+    epoch  2  loss 0.0561  val acc 0.7692  val macro-F1 0.7337    lr 1e-03  56s
+    epoch  3  loss 0.0395  val acc 0.8084  val macro-F1 0.8069 *  lr 1e-03  56s
+    epoch  4  loss 0.0171  val acc 0.7917  val macro-F1 0.8040    lr 1e-03  56s
+    epoch  5  loss 0.0294  val acc 0.8018  val macro-F1 0.7862    lr 1e-03  56s
+    epoch  6  loss 0.0199  val acc 0.8280  val macro-F1 0.8281 *  lr 1e-03  56s
+    epoch  7  loss 0.0173  val acc 0.7942  val macro-F1 0.8063    lr 1e-03  56s
+    epoch  8  loss 0.0203  val acc 0.8184  val macro-F1 0.8220    lr 1e-03  56s
+    epoch  9  loss 0.0033  val acc 0.8197  val macro-F1 0.8197    lr 1e-03  56s
+    epoch 10  loss 0.0190  val acc 0.8047  val macro-F1 0.8094    lr 1e-03  56s
+    epoch 11  loss 0.0242  val acc 0.7976  val macro-F1 0.8024    lr 1e-04  56s
+    epoch 12  loss 0.0055  val acc 0.8239  val macro-F1 0.8231    lr 1e-04  56s
+    epoch 13  loss 0.0035  val acc 0.8301  val macro-F1 0.8318 *  lr 1e-04  56s
+    epoch 14  loss 0.0029  val acc 0.8301  val macro-F1 0.8312    lr 1e-04  56s
+    epoch 15  loss 0.0019  val acc 0.8322  val macro-F1 0.8333 *  lr 1e-04  55s
+    epoch 16  loss 0.0012  val acc 0.8335  val macro-F1 0.8341 *  lr 1e-04  55s
+    epoch 17  loss 0.0013  val acc 0.8335  val macro-F1 0.8343 *  lr 1e-04  55s
+    epoch 18  loss 0.0010  val acc 0.8339  val macro-F1 0.8342    lr 1e-04  55s
+    epoch 19  loss 0.0014  val acc 0.8402  val macro-F1 0.8399 *  lr 1e-04  55s
+    epoch 20  loss 0.0006  val acc 0.8389  val macro-F1 0.8395    lr 1e-04  55s
+    epoch 21  loss 0.0008  val acc 0.8410  val macro-F1 0.8404 *  lr 1e-04  55s
+    epoch 22  loss 0.0012  val acc 0.8397  val macro-F1 0.8386    lr 1e-04  55s
+    epoch 23  loss 0.0005  val acc 0.8385  val macro-F1 0.8383    lr 1e-04  55s
+    epoch 24  loss 0.0004  val acc 0.8372  val macro-F1 0.8363    lr 1e-04  55s
+    epoch 25  loss 0.0005  val acc 0.8418  val macro-F1 0.8408 *  lr 1e-04  55s
+    epoch 26  loss 0.0005  val acc 0.8410  val macro-F1 0.8385    lr 1e-04  55s
+    epoch 27  loss 0.0006  val acc 0.8343  val macro-F1 0.8353    lr 1e-04  55s
+    epoch 28  loss 0.0002  val acc 0.8372  val macro-F1 0.8351    lr 1e-04  55s
+    epoch 29  loss 0.0005  val acc 0.8410  val macro-F1 0.8383    lr 1e-04  55s
+    epoch 30  loss 0.0002  val acc 0.8385  val macro-F1 0.8356    lr 1e-05  55s
+
+supervised_f010_s2: val macro-F1 0.8408, val accuracy 0.8418

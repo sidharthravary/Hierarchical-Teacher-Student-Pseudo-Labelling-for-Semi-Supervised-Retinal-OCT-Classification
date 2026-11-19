@@ -1,0 +1,48 @@
+1. SOURCE
+original CSV rows: 16822; verified images in manifest: 16803 (difference 19: duplicate CSV rows and files missing from the archive)
+
+2. CLASS (folder) vs LABEL (per B-scan)
+label          CNV  DRUSEN  NORMAL    All
+class_folder                             
+CNV           3234    1223     781   5238
+DRUSEN           0    3740    2129   5869
+NORMAL           0      29    5667   5696
+All           3234    4992    8577  16803
+B-scans whose label differs from their folder: 24.8% -> the target must be `label`, not the folder
+
+3. CASES AND VOLUMES
+              cases  images  volumes  min_img  median_img  max_img
+class_folder                                                      
+CNV             161    5238      173       19          31       62
+DRUSEN          160    5869      194       10          31       62
+NORMAL          120    5696      187       25          60       62
+All             441   16803      554       10          31       62
+unique raw patient numbers ignoring the class folder: 161 (grouping on this alone merges unrelated cases)
+
+4. LABEL MIX INSIDE A CASE (number of distinct labels per case)
+labels          1    2   3
+class_folder              
+CNV            18   61  82
+DRUSEN         39  121   0
+NORMAL        116    4   0
+
+5. BYTE-IDENTICAL IMAGES (md5)
+md5 values shared by more than one image: 118 (covering 236 images)
+  within a single case: 0
+  across different cases: 118
+  identical image with conflicting labels: 22
+
+6. DUPLICATE GROUPS (cases linked by shared images; split unit)
+groups: 437 for 441 cases; groups with more than one case: 4
+  CNV-022 + DRUSEN-069: 31 shared images
+  CNV-026 + CNV-147: 31 shared images
+  DRUSEN-017 + NORMAL-034: 31 shared images
+  DRUSEN-022 + DRUSEN-083: 25 shared images
+
+7. LAYOUT OUTLIERS (excluded from every split)
+7 cases, 208 images: ['CNV-159', 'CNV-160', 'CNV-161', 'DRUSEN-157', 'DRUSEN-158', 'DRUSEN-159', 'DRUSEN-160']
+
+8. IMAGE CACHE
+cache shape (16803, 224, 224) uint8; rows aligned with manifest: True
+
+manifest: 16803 images, 441 cases -> manifest.csv
