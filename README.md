@@ -4,7 +4,7 @@ Classifies retinal OCT B-scans as **NORMAL**, **DRUSEN** or **CNV** using only *
 The method extends iterative teacher–student pseudo-labelling [1] with a hierarchical classifier, class-adaptive
 partial-label admission and volume-context agreement [2], plus a pseudo-label loss ramp-up and final fine-tuning [3].
 
-**Full comparison of every model, seed and component: [COMPARISON.md](COMPARISON.md)**
+**Full comparison of every model, seed and component: [COMPARISON.md](COMPARISON.md). What every file does and where each part of the method is in the code: [CODE_GUIDE.md](CODE_GUIDE.md).**
 
 ## Results
 
@@ -108,6 +108,7 @@ Finished runs are skipped, so `run_all.py` can be restarted after an interruptio
 | `demo.py` | Terminal demo |
 | `run_all.py` | Full pipeline |
 | `RESULTS.md`, `COMPARISON.md`, `results.ipynb` | Results, full comparison, executed notebook |
+| `CODE_GUIDE.md` | What every file and function does, with line links |
 | `outputs/runs/<run>/` | Trained model, training log, per-epoch history, per-round pseudo-label statistics |
 
 ## Differences from the original papers
