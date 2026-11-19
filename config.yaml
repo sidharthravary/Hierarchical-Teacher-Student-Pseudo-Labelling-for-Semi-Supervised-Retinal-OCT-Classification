@@ -1,0 +1,51 @@
+# Semi-supervised OCT classification (NEH_UT_2021: Normal / Drusen / CNV, per-B-scan Label)
+
+# Dataset, stored inside this project (data/).
+source_manifest: "data/source_manifest.csv"   # 16,803 verified images with md5, duplicates, layout outliers
+source_csv: "data/data_information.csv"       # original Mendeley metadata (16,822 rows)
+image_cache: "data/images.npy"                # N x 224 x 224 uint8, retina-cropped, row-aligned with source_manifest
+image_cache_index: "data/index.csv"
+pretrained_weights: "data/efficientnet_b0_imagenet.pth"   # downloaded once from torchvision, then reused
+
+output_dir: "outputs"
+classes: ["NORMAL", "DRUSEN", "CNV"]
+
+# Cases dropped from every split: scan pasted small into a black canvas, abnormal classes only.
+exclude_layout_outliers: true
+
+# Case-level split (a case = class folder + patient number; 441 in total).
+split_seed: 42
+split_fractions: {train: 0.60, val: 0.15, test: 0.25}
+
+# Labelled subsets drawn inside the training cases, nested (5% within 10% within 20%), one draw per seed.
+label_fractions: [0.05, 0.10, 0.20]
+label_seeds: [0, 1, 2]
+
+# Training (same for the supervised baseline, ITS and ITS+).
+# Paper 1 uses 100 epochs, LR patience 10, stop patience 15; shortened here to fit a 4 GB laptop GPU.
+train:
+  lr: 0.001                # Adam, as in Paper 1
+  batch_size: 64           # as in Paper 1
+  max_epochs: 30
+  min_steps_per_epoch: 100 # a small labelled set still gets 100 updates per epoch
+  lr_patience: 4           # ReduceLROnPlateau, factor 0.1
+  stop_patience: 8         # early stopping on validation macro-F1
+  dropout: 0.2
+
+# ITS as published (Paper 1).
+its:
+  rounds: 4
+  taus: [0.95, 0.99]   # swept in round 1, best (validation macro-F1) kept for later rounds (paper also tried 0 and 0.90)
+
+# ITS+ (additions from Papers 2 and 3).
+its_plus:
+  rounds: 4
+  tau_low: 0.90            # class-adaptive threshold range (Paper 2)
+  tau_high: 0.98
+  tau_fine: 0.80           # subtype confidence needed for a full abnormal label (Paper 2)
+  window: 5                # neighbouring B-scans averaged for the volume check (Paper 2)
+  labelled_per_batch: 20   # each batch = 20 labelled + 44 pseudo-labelled scans (about 1:2)
+  ramp_start: 2            # pseudo-label loss weight: 0 until this epoch ...
+  ramp_end: 8              # ... then linear up to 1 at this epoch (Paper 3, Eq. 6)
+  finetune_lr: 0.0001      # final fine-tune on true labels only (Paper 3, step 2)
+  finetune_epochs: 8

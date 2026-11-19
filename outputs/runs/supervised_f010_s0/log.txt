@@ -1,0 +1,22 @@
+=== supervised_f010_s0: supervised EfficientNet-B0, 10% of training labels, seed 0 ===
+labelled 940 {'NORMAL': 466, 'DRUSEN': 276, 'CNV': 198} | unlabelled pool 8933 | val 2396 | test 4326
+round 0 teacher: training supervised_f010_s0 on 940 labelled scans
+    epoch  1  loss 0.2059  val acc 0.7725  val macro-F1 0.7785 *  lr 1e-03  58s
+    epoch  2  loss 0.0725  val acc 0.8272  val macro-F1 0.8246 *  lr 1e-03  43s
+    epoch  3  loss 0.0784  val acc 0.8076  val macro-F1 0.8093    lr 1e-03  56s
+    epoch  4  loss 0.0405  val acc 0.8176  val macro-F1 0.8291 *  lr 1e-03  56s
+    epoch  5  loss 0.0249  val acc 0.8331  val macro-F1 0.8300 *  lr 1e-03  55s
+    epoch  6  loss 0.0216  val acc 0.8205  val macro-F1 0.8162    lr 1e-03  54s
+    epoch  7  loss 0.0163  val acc 0.8201  val macro-F1 0.8168    lr 1e-03  54s
+    epoch  8  loss 0.0203  val acc 0.8376  val macro-F1 0.8332 *  lr 1e-03  54s
+    epoch  9  loss 0.0368  val acc 0.8030  val macro-F1 0.7934    lr 1e-03  54s
+    epoch 10  loss 0.0237  val acc 0.8268  val macro-F1 0.8240    lr 1e-03  54s
+    epoch 11  loss 0.0078  val acc 0.7571  val macro-F1 0.7791    lr 1e-03  54s
+    epoch 12  loss 0.0045  val acc 0.8247  val macro-F1 0.8226    lr 1e-03  54s
+    epoch 13  loss 0.0108  val acc 0.8347  val macro-F1 0.8265    lr 1e-04  54s
+    epoch 14  loss 0.0077  val acc 0.8306  val macro-F1 0.8300    lr 1e-04  54s
+    epoch 15  loss 0.0034  val acc 0.8306  val macro-F1 0.8264    lr 1e-04  54s
+    epoch 16  loss 0.0029  val acc 0.8331  val macro-F1 0.8294    lr 1e-04  54s
+    early stop (no improvement for 8 epochs)
+
+supervised_f010_s0: val macro-F1 0.8332, val accuracy 0.8376

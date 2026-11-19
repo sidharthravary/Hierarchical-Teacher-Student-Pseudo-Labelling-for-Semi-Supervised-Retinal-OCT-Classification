@@ -1,0 +1,8 @@
+device: cuda (NVIDIA GeForce RTX 3050 4GB Laptop GPU)
+image cache: (16803, 224, 224) torch.uint8
+seed 0, label fraction 10%
+labelled 940 {'NORMAL': 466, 'DRUSEN': 276, 'CNV': 198} | unlabelled pool 8933 | val 2396 | test 4326
+labelled cases 25, unlabelled cases 234, overlap 0
+saved outputs/03_augmentations.png
+flat network: 4.01 M parameters, 210 images/s training, peak GPU memory 2869 MB, loss 0.243
+hier network: 4.01 M parameters, 208 images/s training, peak GPU memory 2870 MB, loss 0.346

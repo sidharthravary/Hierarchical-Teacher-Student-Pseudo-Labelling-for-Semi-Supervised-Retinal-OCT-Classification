@@ -1,0 +1,45 @@
+1. CASES PER SPLIT (by class folder)
+class_folder  CNV  DRUSEN  NORMAL  All
+split                                 
+train          94      94      71  259
+val            24      24      18   66
+test           40      38      31  109
+excluded        3       4       0    7
+All           161     160     120  441
+
+2. IMAGES PER SPLIT (by per-B-scan label = training target)
+label      CNV  DRUSEN  NORMAL    All
+split                                
+train     1962    2800    5111   9873
+val        473     723    1200   2396
+test       733    1351    2242   4326
+excluded    66     118      24    208
+All       3234    4992    8577  16803
+
+3. VOLUMES PER SPLIT
+          volumes
+split            
+train         326
+val            79
+test          142
+excluded        7
+
+4. LABELLED SUBSETS (inside train; the rest of train is the unlabelled pool)
+               cases  images  NORMAL  DRUSEN  CNV  unlabelled_images
+seed fraction                                                       
+0    0.05         14     518     264     142  112               9355
+     0.10         25     940     466     276  198               8933
+     0.20         52    1932     931     586  415               7941
+1    0.05         14     540     302     147   91               9333
+     0.10         25     972     536     244  192               8901
+     0.20         52    1909    1033     486  390               7964
+2    0.05         14     553     272     182   99               9320
+     0.10         25     981     466     317  198               8892
+     0.20         52    1978     936     639  403               7895
+
+5. LEAKAGE CHECKS
+  [OK] every case is in exactly one split
+  [OK] no duplicate group spans two splits
+  [OK] no identical image (md5) appears in two splits
+  [OK] labelled cases are all training cases
+  [OK] subsets are nested and every class is present

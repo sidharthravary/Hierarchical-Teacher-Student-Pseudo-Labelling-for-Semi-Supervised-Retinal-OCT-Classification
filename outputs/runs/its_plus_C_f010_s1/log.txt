@@ -1,0 +1,89 @@
+=== its_plus_C_f010_s1: ITS+ variant C {'adaptive': True, 'partial': True, 'volume': True}, 10% labels, seed 1 ===
+labelled 972 {'NORMAL': 536, 'DRUSEN': 244, 'CNV': 192} | unlabelled pool 8901 | val 2396 | test 4326
+round 0 teacher: reusing supervised_hier_f010_s1 (val macro-F1 0.8148)
+
+round 1  threshold class-adaptive 0.959/0.978/0.980: admitted 7336 of 8901 (82.4%), partial 421, full-label precision 0.9102
+  per class (count, precision): NORMAL 3409 / 0.933, DRUSEN 1938 / 0.845, CNV 1568 / 0.941
+    epoch  1  loss 0.2759  val acc 0.8093  val macro-F1 0.8188 *  lr 1e-03  75s
+    epoch  2  loss 0.1376  val acc 0.7901  val macro-F1 0.7802    lr 1e-03  60s
+    epoch  3  loss 0.0946  val acc 0.8347  val macro-F1 0.8367 *  lr 1e-03  60s
+    epoch  4  loss 0.0851  val acc 0.7988  val macro-F1 0.7903    lr 1e-03  60s
+    epoch  5  loss 0.0761  val acc 0.8264  val macro-F1 0.8281    lr 1e-03  60s
+    epoch  6  loss 0.0583  val acc 0.8552  val macro-F1 0.8625 *  lr 1e-03  60s
+    epoch  7  loss 0.0680  val acc 0.8389  val macro-F1 0.8411    lr 1e-03  60s
+    epoch  8  loss 0.0483  val acc 0.8072  val macro-F1 0.8059    lr 1e-03  60s
+    epoch  9  loss 0.0592  val acc 0.8502  val macro-F1 0.8416    lr 1e-03  60s
+    epoch 10  loss 0.0470  val acc 0.8301  val macro-F1 0.8367    lr 1e-03  60s
+    epoch 11  loss 0.0488  val acc 0.8301  val macro-F1 0.8329    lr 1e-04  60s
+    epoch 12  loss 0.0279  val acc 0.8468  val macro-F1 0.8466    lr 1e-04  60s
+    epoch 13  loss 0.0186  val acc 0.8464  val macro-F1 0.8453    lr 1e-04  60s
+    epoch 14  loss 0.0175  val acc 0.8539  val macro-F1 0.8553    lr 1e-04  60s
+    early stop (no improvement for 8 epochs)
+  student val macro-F1 0.8625  val accuracy 0.8552
+
+round 2  threshold class-adaptive 0.955/0.980/0.975: admitted 7449 of 8901 (83.7%), partial 342, full-label precision 0.9184
+  per class (count, precision): NORMAL 3426 / 0.944, DRUSEN 2102 / 0.842, CNV 1579 / 0.966
+    epoch  1  loss 0.2359  val acc 0.8272  val macro-F1 0.8343 *  lr 1e-03  61s
+    epoch  2  loss 0.1021  val acc 0.7755  val macro-F1 0.7911    lr 1e-03  61s
+    epoch  3  loss 0.0841  val acc 0.7896  val macro-F1 0.8085    lr 1e-03  61s
+    epoch  4  loss 0.0601  val acc 0.8114  val macro-F1 0.8278    lr 1e-03  61s
+    epoch  5  loss 0.0633  val acc 0.8314  val macro-F1 0.8357 *  lr 1e-03  61s
+    epoch  6  loss 0.0534  val acc 0.8447  val macro-F1 0.8563 *  lr 1e-03  61s
+    epoch  7  loss 0.0495  val acc 0.8477  val macro-F1 0.8544    lr 1e-03  61s
+    epoch  8  loss 0.0453  val acc 0.7955  val macro-F1 0.8166    lr 1e-03  61s
+    epoch  9  loss 0.0431  val acc 0.8568  val macro-F1 0.8598 *  lr 1e-03  61s
+    epoch 10  loss 0.0352  val acc 0.8272  val macro-F1 0.8423    lr 1e-03  61s
+    epoch 11  loss 0.0307  val acc 0.8514  val macro-F1 0.8597    lr 1e-03  60s
+    epoch 12  loss 0.0342  val acc 0.8260  val macro-F1 0.8366    lr 1e-03  61s
+    epoch 13  loss 0.0316  val acc 0.8243  val macro-F1 0.8404    lr 1e-03  61s
+    epoch 14  loss 0.0332  val acc 0.7634  val macro-F1 0.7782    lr 1e-04  61s
+    epoch 15  loss 0.0216  val acc 0.8593  val macro-F1 0.8695 *  lr 1e-04  60s
+    epoch 16  loss 0.0123  val acc 0.8548  val macro-F1 0.8632    lr 1e-04  60s
+    epoch 17  loss 0.0085  val acc 0.8581  val macro-F1 0.8671    lr 1e-04  60s
+    epoch 18  loss 0.0081  val acc 0.8577  val macro-F1 0.8676    lr 1e-04  60s
+    epoch 19  loss 0.0085  val acc 0.8552  val macro-F1 0.8666    lr 1e-04  60s
+    epoch 20  loss 0.0046  val acc 0.8573  val macro-F1 0.8683    lr 1e-05  60s
+    epoch 21  loss 0.0082  val acc 0.8539  val macro-F1 0.8650    lr 1e-05  60s
+    epoch 22  loss 0.0063  val acc 0.8548  val macro-F1 0.8660    lr 1e-05  60s
+    epoch 23  loss 0.0070  val acc 0.8560  val macro-F1 0.8671    lr 1e-05  60s
+    early stop (no improvement for 8 epochs)
+  student val macro-F1 0.8695  val accuracy 0.8593
+
+round 3  threshold class-adaptive 0.949/0.980/0.964: admitted 8008 of 8901 (90.0%), partial 253, full-label precision 0.8882
+  per class (count, precision): NORMAL 3617 / 0.936, DRUSEN 2518 / 0.772, CNV 1620 / 0.962
+    epoch  1  loss 0.2687  val acc 0.8364  val macro-F1 0.8345 *  lr 1e-03  65s
+    epoch  2  loss 0.1168  val acc 0.8018  val macro-F1 0.8128    lr 1e-03  65s
+    epoch  3  loss 0.0917  val acc 0.8593  val macro-F1 0.8672 *  lr 1e-03  65s
+    epoch  4  loss 0.0760  val acc 0.7513  val macro-F1 0.7619    lr 1e-03  64s
+    epoch  5  loss 0.0654  val acc 0.8631  val macro-F1 0.8670    lr 1e-03  65s
+    epoch  6  loss 0.0617  val acc 0.8376  val macro-F1 0.8488    lr 1e-03  65s
+    epoch  7  loss 0.0518  val acc 0.8335  val macro-F1 0.8373    lr 1e-03  64s
+    epoch  8  loss 0.0548  val acc 0.7909  val macro-F1 0.8119    lr 1e-04  64s
+    epoch  9  loss 0.0318  val acc 0.8518  val macro-F1 0.8629    lr 1e-04  64s
+    epoch 10  loss 0.0183  val acc 0.8502  val macro-F1 0.8612    lr 1e-04  64s
+    epoch 11  loss 0.0141  val acc 0.8510  val macro-F1 0.8622    lr 1e-04  64s
+    early stop (no improvement for 8 epochs)
+  student val macro-F1 0.8672  val accuracy 0.8593
+
+round 4  threshold class-adaptive 0.955/0.980/0.971: admitted 7734 of 8901 (86.9%), partial 341, full-label precision 0.9125
+  per class (count, precision): NORMAL 3588 / 0.934, DRUSEN 2215 / 0.832, CNV 1590 / 0.975
+    epoch  1  loss 0.2391  val acc 0.8489  val macro-F1 0.8536 *  lr 1e-03  63s
+    epoch  2  loss 0.1009  val acc 0.8577  val macro-F1 0.8658 *  lr 1e-03  63s
+    epoch  3  loss 0.0836  val acc 0.8301  val macro-F1 0.8344    lr 1e-03  63s
+    epoch  4  loss 0.0621  val acc 0.8406  val macro-F1 0.8527    lr 1e-03  63s
+    epoch  5  loss 0.0497  val acc 0.8497  val macro-F1 0.8601    lr 1e-03  63s
+    epoch  6  loss 0.0462  val acc 0.8598  val macro-F1 0.8661 *  lr 1e-03  63s
+    epoch  7  loss 0.0387  val acc 0.8339  val macro-F1 0.8486    lr 1e-03  63s
+    epoch  8  loss 0.0420  val acc 0.8614  val macro-F1 0.8709 *  lr 1e-03  63s
+    epoch  9  loss 0.0493  val acc 0.8043  val macro-F1 0.8257    lr 1e-03  63s
+    epoch 10  loss 0.0376  val acc 0.8043  val macro-F1 0.8231    lr 1e-03  63s
+    epoch 11  loss 0.0337  val acc 0.8497  val macro-F1 0.8607    lr 1e-03  62s
+    epoch 12  loss 0.0315  val acc 0.8260  val macro-F1 0.8337    lr 1e-03  63s
+    epoch 13  loss 0.0404  val acc 0.8552  val macro-F1 0.8650    lr 1e-04  63s
+    epoch 14  loss 0.0186  val acc 0.8539  val macro-F1 0.8623    lr 1e-04  62s
+    epoch 15  loss 0.0134  val acc 0.8535  val macro-F1 0.8632    lr 1e-04  62s
+    epoch 16  loss 0.0110  val acc 0.8523  val macro-F1 0.8629    lr 1e-04  62s
+    early stop (no improvement for 8 epochs)
+  student val macro-F1 0.8709  val accuracy 0.8614
+
+saved its_plus_C_f010_s1: best round 4, val macro-F1 0.8709, val accuracy 0.8614
