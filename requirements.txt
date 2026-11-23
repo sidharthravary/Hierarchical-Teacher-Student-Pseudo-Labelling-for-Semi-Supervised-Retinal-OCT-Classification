@@ -1,0 +1,13 @@
+# Tested with Python 3.14.3 and the versions in brackets (Python 3.10+ should work).
+torch>=2.1            # (2.14.0, CUDA 12.6 build)
+torchvision>=0.16     # (0.29.0)
+numpy                 # (2.5.3)
+pandas                # (3.0.6)
+scikit-learn          # (1.9.1)
+scipy                 # (1.18.1)
+matplotlib            # (3.11.2)
+pyyaml                # (6.0.3)
+pillow                # (12.3.0)
+nbformat              # (5.11.1)
+nbconvert             # (7.17.1)
+ipykernel

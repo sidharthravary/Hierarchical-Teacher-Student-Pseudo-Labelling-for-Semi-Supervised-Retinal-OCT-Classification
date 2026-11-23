@@ -9,3 +9,6 @@ outputs/run_all_log*.txt
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+
+# written fresh by every live_demo.py run
+outputs/live_demo/best_model.pt

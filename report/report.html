@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hierarchical Teacher-Student Pseudo-Labelling for Semi-Supervised Retinal OCT Classification</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});"></script>
+<style>
+  /* IEEE conference layout, A4: top 19 mm, bottom 43 mm, sides 14.32 mm, two columns with a 4.22 mm gap */
+  @page { size: A4; margin: 19mm 14.32mm 43mm 14.32mm; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Times New Roman", Times, serif; font-size: 10pt; line-height: 1.14; color: #000; }
+  .title { font-size: 24pt; text-align: center; line-height: 1.1; margin: 0 0 10pt 0; font-weight: normal; }
+  .authors { display: flex; justify-content: center; gap: 0; margin-bottom: 14pt; }
+  .author { width: 33%; text-align: center; font-size: 10pt; line-height: 1.25; }
+  .author .name { font-size: 11pt; }
+  .author i { display: block; }
+  .cols { column-count: 2; column-gap: 4.22mm; column-fill: balance; text-align: justify; hyphens: auto; }
+  p { margin: 0; text-indent: 1em; }
+  p.ni, .abstract p, .index p { text-indent: 0; }
+  .abstract, .index { font-size: 9pt; font-weight: bold; line-height: 1.17; margin-bottom: 4pt; }
+  .abstract i, .index i { font-weight: bold; }
+  h2 { font-size: 10pt; font-weight: normal; font-variant: small-caps; text-align: center; margin: 9pt 0 4pt 0;
+       letter-spacing: 0.2pt; break-after: avoid; }
+  h3 { font-size: 10pt; font-weight: normal; font-style: italic; margin: 5pt 0 2pt 0; break-after: avoid; }
+  figure { margin: 6pt 0 6pt 0; break-inside: avoid; text-align: center; }
+  figure.wide { column-span: all; margin: 4pt 0 8pt 0; }
+  figure img { display: block; margin: 0 auto; max-width: 100%; }
+  figcaption { font-size: 8pt; text-align: justify; margin-top: 3pt; line-height: 1.15; text-indent: 0; }
+  figure.wide figcaption { padding: 0 4mm; }
+  .tbl { break-inside: avoid; margin: 6pt 0 6pt 0; }
+  .tbl.wide { column-span: all; }
+  .tcap { font-size: 8pt; text-align: center; margin-bottom: 3pt; line-height: 1.2; }
+  .tcap .tn { display: block; }
+  .tcap .tt { font-variant: small-caps; }
+  table { border-collapse: collapse; margin: 0 auto; font-size: 8pt; line-height: 1.15; }
+  th, td { padding: 1.2pt 3.5pt; text-align: center; }
+  thead tr:first-child th { border-top: 1px solid #000; }
+  thead tr:last-child th { border-bottom: 0.6px solid #000; }
+  tbody tr:last-child td { border-bottom: 1px solid #000; }
+  th { font-weight: normal; }
+  td.l, th.l { text-align: left; }
+  .tnote { font-size: 7.5pt; text-align: justify; margin-top: 2pt; line-height: 1.15; }
+  .katex-display { margin: 4pt 0; }
+  .katex { font-size: 1.0em; }
+  .katex-display > .katex { font-size: 0.98em; }
+  ul.ieee { margin: 2pt 0 2pt 0; padding-left: 1.3em; }
+  ul.ieee li { margin: 0 0 1pt 0; }
+  .refs { font-size: 8pt; line-height: 1.17; text-align: left; }
+  .refs p { text-indent: 0; padding-left: 2.2em; position: relative; margin-bottom: 2pt; }
+  .refs p span.n { position: absolute; left: 0; }
+  .pb { break-before: page; }
+  .avail { font-size: 8pt; text-indent: 0; margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<div class="title">Hierarchical Teacher&ndash;Student Pseudo-Labelling for Semi-Supervised Retinal OCT Classification</div>
+
+<div class="authors">
+  <div class="author"><span class="name">Sidharth Ravary</span><i>ML Course Project, Group 7</i>UEN 2024UG000252</div>
+  <div class="author"><span class="name">Shivani Sharath</span><i>ML Course Project, Group 7</i>UEN 2024UG000242</div>
+  <div class="author"><span class="name">Nithyashree</span><i>ML Course Project, Group 7</i>UEN 2024UG000277</div>
+</div>
+
+<div class="cols">
+
+<div class="abstract"><p><i>Abstract</i>&mdash;Expert grading of retinal optical coherence tomography (OCT) is slow and
+costly, so most OCT archives are mostly unlabelled. We classify single OCT B-scans as NORMAL, DRUSEN or CNV
+(choroidal neovascularisation) on the public NEH_UT_2021 dataset in a setting where only 10% of the training
+patients are labelled: 940 labelled and 8,933 unlabelled B-scans. Our method, ITS+, extends iterative
+teacher&ndash;student pseudo-labelling (ITS) with a normal/abnormal &rarr; drusen/CNV classifier, class-specific
+thresholds, &ldquo;abnormal, subtype unknown&rdquo; partial labels, agreement with neighbouring B-scans and a gradually
+introduced pseudo-label loss. On 4,326 test B-scans from 109 held-out cases,
+averaged over three random seeds, ITS+ reaches 85.90&nbsp;&plusmn;&nbsp;2.84% accuracy and 85.64% macro-F1,
+compared with 82.15% for ITS, 80.64% for supervised training on the labelled scans alone and 50.62% for
+unsupervised k-means clustering. It also lowers the share of diseased scans predicted as normal from 23.94% to
+14.64%.</p></div>
+
+<div class="index"><p><i>Index Terms</i>&mdash;optical coherence tomography, semi-supervised learning, pseudo-labelling,
+teacher&ndash;student training, hierarchical classification, EfficientNet.</p></div>
+
+<h2>I. Introduction</h2>
+<p>Age-related macular degeneration (AMD) is a leading cause of vision loss in older adults. On OCT it appears
+as drusen, deposits under the retinal pigment epithelium typical of the dry form, or as CNV, abnormal vessel
+growth typical of the wet form, which needs prompt treatment. Convolutional neural networks (CNNs) grade OCT
+scans accurately when about 100,000 labelled images are available [13], but every label must come from an
+ophthalmologist. Semi-supervised learning (SSL) also learns from images that have no label.</p>
+<p>Our task is: given one grayscale OCT B-scan, predict NORMAL, DRUSEN or CNV, when only 10% of the training
+patients have labels. Calling a diseased scan normal (<i>under-grading</i>) is the most harmful error, because the
+patient would not be referred. We (i) re-implement ITS [1] as the semi-supervised baseline, (ii) extend it
+to ITS+ with the hierarchical classifier and three-way pseudo-label admission of [2] and the loss ramp-up and
+fine-tuning of [3], and (iii) evaluate all models over three seeds on a patient-level split, with an ablation,
+an unsupervised clustering reference and an error analysis.</p>
+
+<h2>II. Related Work</h2>
+<p><i>Pseudo-labelling and self-training.</i> In pseudo-labelling, a network trained on labelled data assigns
+its own predictions as targets to unlabelled data [6]. Noisy Student training [9] repeats this with a student
+that becomes the next teacher. FixMatch [7] keeps a pseudo-label only when the prediction on a weakly augmented
+image is confident and trains on a strongly augmented copy; FlexMatch [8] replaces the single threshold with
+class-wise thresholds that follow how well each class is learnt.</p>
+<p><i>Papers studied for this project.</i> Alizadeh <i>et al.</i> [1] apply iterative teacher&ndash;student
+training (ITS) to NEH_UT_2021 with EfficientNet-B0 [5]. A teacher trained on the labelled subset gives hard
+labels to unlabelled scans whose top probability exceeds a threshold; a student trained on both replaces the
+teacher for several rounds. With 5% and 20% of the labels, ITS improves accuracy from 54.78% to 64.15% and from
+77.05% to 88.56%. Akash <i>et al.</i> [2] (TRIAGE) treat pseudo-label admission as a risk decision. They use a
+hierarchical normal/abnormal and drusen/CNV classifier, accept, partially accept or reject each pseudo-label,
+and check it against a Transformer that sees neighbouring B-scans. They report 76.88% (5%) and 89.66% (20%)
+accuracy on the same dataset. Tan <i>et al.</i> [3] combine pseudo-labels with sub-domain adaptation on other OCT
+datasets. They introduce the pseudo-label loss gradually and finish with fine-tuning on the true labels.</p>
+
+<h2>III. Dataset and Preprocessing</h2>
+<h3>A. NEH_UT_2021 Dataset</h3>
+<p>The dataset [4] was collected at Noor Eye Hospital. Its metadata lists 16,822 B-scans; 16,803 image
+files could be matched and checked. Images are stored in three class folders, one
+sub-folder per patient (a <i>case</i>), with 441 cases and 554 volumes (one volume is one 3-D scan of one eye).
+Each B-scan also carries its own label, and that label differs from the folder name for 24.8% of the scans: a CNV
+eye, for example, contains many slices that look normal. We therefore use the per-B-scan label as the target.
+Seven cases (208 images, all from the CNV and DRUSEN folders) store the scan as a small picture inside a large
+black frame. We removed them, because a network could learn &ldquo;black frame means diseased&rdquo; instead of
+learning the disease itself.</p>
+
+<h3>B. Patient-Level Split</h3>
+<p>Whole cases are assigned to training (60%), validation (15%) and test (25%) sets, so no patient appears in
+two sets. Four pairs of cases share byte-identical images (checked with MD5 hashes); each pair is kept in the
+same set. Inside the training cases, 10% of the cases keep their labels and the rest form the unlabelled pool
+(Table&nbsp;I). Each seed draws a different labelled subset (940, 972 and 981 scans for seeds 0, 1 and 2), while the
+validation and test sets stay fixed.</p>
+
+<div class="tbl">
+<div class="tcap"><span class="tn">TABLE I</span><span class="tt">Data Used in Every Experiment (B-Scans)</span></div>
+<table>
+<thead><tr><th class="l">Set</th><th>Cases</th><th>NORMAL</th><th>DRUSEN</th><th>CNV</th><th>Total</th></tr></thead>
+<tbody>
+<tr><td class="l">Labelled (10%, seed 0)</td><td>25</td><td>466</td><td>276</td><td>198</td><td>940</td></tr>
+<tr><td class="l">Unlabelled pool</td><td>234</td><td>4,645</td><td>2,524</td><td>1,764</td><td>8,933</td></tr>
+<tr><td class="l">Validation</td><td>66</td><td>1,200</td><td>723</td><td>473</td><td>2,396</td></tr>
+<tr><td class="l">Test</td><td>109</td><td>2,242</td><td>1,351</td><td>733</td><td>4,326</td></tr>
+</tbody></table>
+<div class="tnote">Labels of the unlabelled pool are hidden from training and are used only to measure pseudo-label
+precision afterwards.</div>
+</div>
+
+<h3>C. Preprocessing</h3>
+<p>Each image is converted to grayscale, and the scale bar printed in its lower-left corner is set to black so that
+it cannot act as a cue. The retina is then located: the image is smoothed with a Gaussian filter (&sigma;&nbsp;=&nbsp;4),
+thresholded with Otsu&rsquo;s method [12] and cleaned with a morphological opening. A band of 352 rows (full image
+width) centred on the detected retina is cropped, resized to 224&nbsp;&times;&nbsp;224 pixels and normalised with the
+ImageNet mean and standard deviation. Detection succeeded on all 16,803 images.</p>
+
+<h2>IV. Methodology</h2>
+<p class="ni">Fig.&nbsp;1 summarises ITS+. All models share one backbone: EfficientNet-B0 [5] pre-trained on ImageNet,
+whose convolutional part (4.0&nbsp;M parameters) maps a scan \(x\) to a 1,280-dimensional feature vector, followed by
+dropout (0.2).</p>
+
+<figure class="wide"><img src="../outputs/12_method_diagram.png" style="width:64%">
+<figcaption>Fig. 1. ITS+ pipeline. A teacher trained on the labelled scans predicts every unlabelled scan; the
+admission step turns confident predictions into full or partial pseudo-labels; a new student is trained on
+labelled and pseudo-labelled scans and becomes the next teacher. After four rounds, the best round (by validation
+macro-F1) is fine-tuned on the labelled scans; the fine-tuned model replaces it only if validation macro-F1 improves.
+The result is saved and evaluated once on the test set.</figcaption></figure>
+
+<h3>A. Iterative Teacher&ndash;Student Loop (ITS) [1]</h3>
+<p>Round 0 trains a teacher on the labelled set \(\mathcal{L}\). In each round \(r = 1,\dots,4\) the teacher
+outputs class probabilities \(\mathbf{p}(x) = [P(\mathrm{N}\mid x), P(\mathrm{D}\mid x), P(\mathrm{C}\mid x)]\) for
+every scan \(x\) in the unlabelled pool \(\mathcal{U}\). Here N, D and C stand for NORMAL, DRUSEN and CNV. Scans
+that pass the admission rule get the pseudo-label \(\hat y(x) = \arg\max_c P(c\mid x)\). A new student, initialised
+from ImageNet weights, is trained on \(\mathcal{L}\) and the admitted scans, and then becomes the teacher of round
+\(r+1\). In the baseline ITS the network has one 3-way softmax output, and a scan is admitted when
+\(\max_c P(c\mid x) \ge \tau\). The threshold \(\tau \in \{0.95, 0.99\}\) is chosen in round 1 by validation
+macro-F1; 0.95 was chosen for all three seeds.</p>
+
+<h3>B. Hierarchical Classifier [2]</h3>
+<p>ITS+ replaces the single output layer with two linear heads on the shared features, each followed by a 2-way
+softmax. With A denoting &ldquo;abnormal&rdquo; (DRUSEN or CNV), the first head gives \(a(x) = P(\mathrm{A}\mid x)\)
+and the second gives \(q(x) = P(\mathrm{C}\mid \mathrm{A}, x)\), the probability of CNV given that the scan is
+abnormal, so \(P(\mathrm{D}\mid\mathrm{A},x) = 1-q(x)\). The chain rule of probability gives the three class
+probabilities:</p>
+$$P(\mathrm{N}\mid x) = 1 - P(\mathrm{A}\mid x) = 1 - a(x) \tag{1}$$
+$$P(\mathrm{D}\mid x) = P(\mathrm{A}\mid x)\,P(\mathrm{D}\mid \mathrm{A},x) = a(x)\,\big(1-q(x)\big) \tag{2}$$
+$$P(\mathrm{C}\mid x) = P(\mathrm{A}\mid x)\,P(\mathrm{C}\mid \mathrm{A},x) = a(x)\,q(x) \tag{3}$$
+<p class="ni">The three values are non-negative and sum to one. The normal-versus-abnormal decision, which decides
+referral, now has its own head instead of sharing one softmax with the drusen/CNV choice.</p>
+
+<h3>C. Class-Weighted Loss with Partial Labels</h3>
+<p>A full label \(y \in \{\mathrm{N},\mathrm{D},\mathrm{C}\}\) uses the negative log-likelihood. A partial label
+(&ldquo;abnormal, subtype unknown&rdquo;) only states that the scan is abnormal, so its loss is the negative log of
+the abnormal probability:</p>
+$$\ell(x,y) = \begin{cases} -\log P(y\mid x), & \text{full label} \\ -\log a(x), & \text{partial label} \end{cases} \tag{4}$$
+<p class="ni">By (2) and (3), \(P(\mathrm{D}\mid x)+P(\mathrm{C}\mid x) = a(x)\), so the partial-label loss
+\(-\log\big(P(\mathrm{D}\mid x)+P(\mathrm{C}\mid x)\big)\) equals \(-\log a(x)\) and updates only the normal/abnormal head. To counter class imbalance, each loss is weighted by the inverse frequency of its class in
+\(\mathcal{L}\), which holds \(N\) scans, \(N_c\) of them of class \(c\):</p>
+$$\mathcal{L} = \frac{\sum_i w_{y_i}\,\ell(x_i,y_i)}{\sum_i w_{y_i}},\qquad w_c = \frac{N}{3N_c} \tag{5}$$
+<p class="ni">and a partial label gets \(w_{\text{partial}} = \tfrac12(w_{\mathrm{D}} + w_{\mathrm{C}})\). For seed 0 this gives \(w_{\mathrm{N}} = 0.67\), \(w_{\mathrm{D}} = 1.14\) and \(w_{\mathrm{C}} = 1.58\).</p>
+
+<h3>D. Pseudo-Label Admission [2]</h3>
+<p><i>Class-adaptive thresholds.</i> A single threshold admits many scans of easy classes and few of hard ones. For
+each class \(c\), let \(\pi_c\) be its share of \(\mathcal{L}\). The <i>learning status</i> \(s_c\) is the number of
+pool scans already predicted as \(c\) with confidence at least \(\tau_{hi}\), divided by the number of class-\(c\)
+scans expected in the pool. Each class threshold is then interpolated between \(\tau_{lo}\) and \(\tau_{hi}\):</p>
+$$\begin{aligned} s_c &= \frac{\big|\{x\in\mathcal{U} : \hat y(x) = c,\ \max_k P(k\mid x)\ge\tau_{hi}\}\big|}{\pi_c\,|\mathcal{U}|} \\
+\tau_c &= \tau_{lo} + (\tau_{hi}-\tau_{lo})\,\frac{s_c}{\max_k s_k} \end{aligned} \tag{6}$$
+<p class="ni">with \(\tau_{lo} = 0.90\) and \(\tau_{hi} = 0.98\). The best-learnt class keeps the strict threshold
+0.98, and classes that lag behind get a lower one.</p>
+<p><i>Full, partial or reject.</i> A scan becomes a <i>full</i> label if \(\max_c P(c\mid x) \ge \tau_{\hat y}\) and,
+when \(\hat y\) is DRUSEN or CNV, the subtype is also clear: \(\max\big(q(x), 1-q(x)\big) \ge \tau_f = 0.80\).
+Otherwise it becomes a <i>partial</i> label if \(a(x) \ge \min(\tau_{\mathrm{D}}, \tau_{\mathrm{C}})\), meaning the
+teacher is sure the scan is abnormal but not which disease it shows. Every other scan is rejected.</p>
+<p><i>Volume agreement.</i> Neighbouring B-scans of one eye usually share a diagnosis. For pool scan \(i\), let
+\(W_i\) contain the scan itself and up to two B-scans on each side of it in the same volume. The teacher&rsquo;s
+probabilities are averaged over \(W_i\):</p>
+$$\bar{\mathbf{p}}_i = \frac{1}{|W_i|}\sum_{j\in W_i}\mathbf{p}(x_j),\qquad \bar a_i = \bar p_{i,\mathrm{D}} + \bar p_{i,\mathrm{C}} \tag{7}$$
+<p class="ni">A full label is kept only if \(\arg\max_c \bar p_{i,c} = \hat y_i\). A full DRUSEN or CNV label that fails
+this test but has \(\bar a_i \ge 0.5\) is downgraded to a partial label, and every partial label needs
+\(\bar a_i \ge 0.5\). This is a simple, training-free stand-in for the Transformer context teacher of [2].</p>
+
+<h3>E. Student Training [2], [3]</h3>
+<p>Each ITS+ batch of 64 holds 20 labelled scans with weak augmentation (random flip, rotation up to 10&deg;,
+random crop to 85&ndash;100% of the image, shift up to 3%, shear up to 5&deg;) and 44 pseudo-labelled scans with strong augmentation
+(flip, rotation up to 20&deg;, scale 0.70&ndash;1.10, shift up to 5%, shear up to 10&deg;, random contrast, brightness and
+gamma, and one Cutout square [11] covering 20&ndash;40% of the side). ITS and variants A&ndash;C instead train on one
+pooled, weakly augmented set. Early pseudo-labels are not trusted fully: the pseudo-label loss is switched on
+gradually over the epochs \(t = 1, 2, \dots\), with the zero&ndash;linear&ndash;constant shape of [3] rescaled to our
+30-epoch schedule:</p>
+$$\begin{aligned} \mathcal{L}_t &= \mathcal{L}_{\text{lab}} + \lambda(t)\,\mathcal{L}_{\text{pse}} \\
+\lambda(t) &= \min\!\Big(1, \max\!\Big(0, \frac{t-3}{6}\Big)\Big) \end{aligned} \tag{8}$$
+<p class="ni">so \(\lambda = 0\) for epochs 1&ndash;3 and \(\lambda = 1\) from epoch 9. After the four rounds, the best
+student is fine-tuned on \(\mathcal{L}\) only, for up to 8 epochs at learning rate \(10^{-4}\). The fine-tuned model
+is kept only if its validation macro-F1 is higher [3]; this happened for seed 2 only.</p>
+
+<h3>F. Unsupervised Reference</h3>
+<p>To measure how much structure exists without any training labels, we extract ImageNet EfficientNet-B0 features
+of all training scans, reduce them with principal component analysis (PCA) to \(K = 50\) components and cluster
+them with k-means (\(k = 3\)), which minimises \(\sum_i \lVert \mathbf{z}_i - \boldsymbol{\mu}_{c(i)} \rVert^2\).
+The variance retained by the first \(K\) components, with eigenvalues \(\lambda_1 \ge \lambda_2 \ge \dots\) of the
+feature covariance matrix, is</p>
+$$\text{retained}(K) = \frac{\sum_{k=1}^{K}\lambda_k}{\sum_{k}\lambda_k} \tag{9}$$
+<p class="ni">which is 79.7% for \(K = 50\). Validation labels are used only to name the clusters, by a
+one-to-one cluster&ndash;class matching that maximises validation agreement (Hungarian algorithm).</p>
+
+<h2>V. Experimental Setup</h2>
+<p>All networks use the settings in Table&nbsp;II, on a 4&nbsp;GB NVIDIA RTX 3050 laptop GPU; the schedule is
+shorter than the 100 epochs of [1] but identical for every model. Each model is trained with seeds 0, 1 and 2.
+Only the validation set selects the best epoch, round and ITS threshold; the test set is used once per model.</p>
+
+<div class="tbl">
+<div class="tcap"><span class="tn">TABLE II</span><span class="tt">Training Settings</span></div>
+<table>
+<thead><tr><th class="l">Setting</th><th class="l">Value</th></tr></thead>
+<tbody>
+<tr><td class="l">Optimiser, learning rate</td><td class="l">Adam [10], \(10^{-3}\)</td></tr>
+<tr><td class="l">Batch size; minimum steps per epoch</td><td class="l">64; 100</td></tr>
+<tr><td class="l">Learning-rate schedule</td><td class="l">&times;0.1 after 5 epochs without gain</td></tr>
+<tr><td class="l">Early stopping; maximum epochs</td><td class="l">8 epochs without gain; 30</td></tr>
+<tr><td class="l">Selection criterion</td><td class="l">validation macro-F1</td></tr>
+<tr><td class="l">Teacher&ndash;student rounds</td><td class="l">4</td></tr>
+<tr><td class="l">\(\tau_{lo}, \tau_{hi}, \tau_f\); window \(|W_i|\)</td><td class="l">0.90, 0.98, 0.80; up to 5</td></tr>
+<tr><td class="l">Precision</td><td class="l">mixed (float16)</td></tr>
+</tbody></table></div>
+
+<p><i>Metrics.</i> With precision \(P_c\) and recall \(R_c\) of class \(c\), we report accuracy, macro-F1, one-vs-rest
+macro-AUC and the under-grading rate (UGR):</p>
+$$\begin{aligned} \text{macro-F1} &= \frac13\sum_{c}\frac{2P_cR_c}{P_c+R_c} \\
+\text{UGR} &=\frac{\big|\{i : y_i\in\{\mathrm{D},\mathrm{C}\},\ \hat y_i = \mathrm{N}\}\big|}{\big|\{i : y_i\in\{\mathrm{D},\mathrm{C}\}\}\big|} \end{aligned} \tag{10}$$
+<p class="ni">Macro-F1 weights the three classes equally, which matters because 51.8% of the test scans are
+NORMAL. A model that ignored DRUSEN could still reach high accuracy, but not high macro-F1. For each model, a 95%
+confidence interval is obtained by resampling whole test cases with replacement 1,000 times, because scans of one
+patient are not independent.</p>
+
+<h2>VI. Results and Discussion</h2>
+<h3>A. Main Comparison</h3>
+<p>Table&nbsp;III compares the three kinds of learning on the same test set. Using the unlabelled scans helps:
+ITS improves on supervised training by 1.51 points, and ITS+ improves on ITS by 3.75 accuracy points, 4.61
+macro-F1 points and 6.20 UGR points. ITS+ beats ITS on every seed (+6.63, +3.81 and +0.79 points). For seed 0,
+ITS+ reaches 88.60% accuracy with a 95% confidence interval of 85.6&ndash;91.3%. Unsupervised k-means is far
+behind at 50.62%. Our 10% result lies between the 5% and 20% results of [1], [2] (Section&nbsp;II), although
+their splits differ, so that comparison is only indicative.</p>
+
+<div class="tbl">
+<div class="tcap"><span class="tn">TABLE III</span><span class="tt">Test Results (%), Mean &plusmn; SD over Three Seeds</span></div>
+<table>
+<thead><tr><th class="l">Model</th><th>Accuracy</th><th>Macro-F1</th><th>AUC</th><th>UGR&darr;</th></tr></thead>
+<tbody>
+<tr><td class="l">k-means (unsup.)</td><td>50.62&plusmn;0.01</td><td>49.27&plusmn;0.03</td><td>69.41&plusmn;0.01</td><td>24.98&plusmn;0.10</td></tr>
+<tr><td class="l">Supervised (flat)</td><td>80.64&plusmn;0.39</td><td>79.31&plusmn;1.14</td><td>91.29&plusmn;0.58</td><td>23.94&plusmn;5.35</td></tr>
+<tr><td class="l">Supervised (hier.)</td><td>81.61&plusmn;0.45</td><td>80.68&plusmn;1.17</td><td>92.20&plusmn;1.24</td><td>17.16&plusmn;5.14</td></tr>
+<tr><td class="l">ITS [1]</td><td>82.15&plusmn;0.18</td><td>81.03&plusmn;1.86</td><td>93.53&plusmn;0.54</td><td>20.84&plusmn;10.42</td></tr>
+<tr><td class="l"><b>ITS+ (ours)</b></td><td><b>85.90&plusmn;2.84</b></td><td><b>85.64&plusmn;3.37</b></td><td><b>94.79&plusmn;1.59</b></td><td><b>14.64&plusmn;5.33</b></td></tr>
+</tbody></table>
+<div class="tnote">Supervised models use only the labelled scans (940&ndash;981 per seed). For k-means, the SD is over
+k-means seeds with a fixed feature set.</div>
+</div>
+
+<h3>B. Ablation</h3>
+<p>Table&nbsp;IV adds the ITS+ components one at a time. The hierarchical classifier gives the largest gain (+2.49
+points) and the largest fall in UGR (20.84% to 15.26%). The remaining components raise pseudo-label precision
+from 89.52% to 91.47% but together add only about 1.3 accuracy points. That is less than the seed-to-seed standard
+deviation (2.84), so with three seeds we cannot show that each of them helps on its own.</p>
+
+<div class="tbl">
+<div class="tcap"><span class="tn">TABLE IV</span><span class="tt">Ablation, Mean of Three Seeds (%)</span></div>
+<table>
+<thead><tr><th class="l">Configuration (cumulative)</th><th>Acc.</th><th>&Delta;</th><th>UGR</th><th>PL prec.</th></tr></thead>
+<tbody>
+<tr><td class="l">ITS [1]</td><td>82.15</td><td>&ndash;</td><td>20.84</td><td>87.31</td></tr>
+<tr><td class="l">A: + hierarchical classifier</td><td>84.64</td><td>+2.49</td><td>15.26</td><td>89.52</td></tr>
+<tr><td class="l">B: + adaptive thresholds, partial labels</td><td>84.67</td><td>+0.03</td><td>15.47</td><td>90.23</td></tr>
+<tr><td class="l">C: + volume agreement</td><td>85.27</td><td>+0.59</td><td>15.75</td><td>89.90</td></tr>
+<tr><td class="l">D: + strong aug., ramp, fine-tune</td><td>85.90</td><td>+0.63</td><td>14.64</td><td>91.47</td></tr>
+</tbody></table>
+<div class="tnote">PL prec.: share of full pseudo-labels equal to the hidden true label, averaged over all rounds and
+seeds (for ITS including both thresholds tried in round 1); measured after training, never used for any decision.</div>
+</div>
+
+<figure class="wide"><img src="../outputs/12_training_curves.png" style="width:53%">
+<figcaption>Fig. 2. Training loss (top) and validation macro-F1 (bottom) for every epoch of every round, seed 0, for
+ITS+ (left) and ITS (right). Circles mark the saved (best) epoch of each round.</figcaption></figure>
+
+<h3>C. Loss Curves and Round-by-Round Behaviour</h3>
+<p>The round-0 teacher (Fig.&nbsp;2) drives its training loss from 0.20 to 0.003 in 12 epochs, while its validation
+macro-F1 peaks at epoch 4 (82.82%) and then falls. This is clear over-fitting of 940 labelled scans; early
+stopping keeps epoch 4. Student losses stay higher (mostly 0.05&ndash;0.18 after the first epoch) because their batches contain strongly
+augmented and sometimes wrong pseudo-labels, and in round 1 the loss rises between epochs 4 and 9 as
+\(\lambda(t)\) grows. Validation macro-F1 still climbs, to 87.70% in round 1 and 89.29% in round 3, so the
+pseudo-labels act as a regulariser rather than as noise. ITS curves fluctuate more and stay between 74% and 85%.
+The pseudo-labels explain why: across rounds 1&ndash;4 of seed 0, 90.4&ndash;93.9% of the ITS+ full
+pseudo-labels are correct, against 86.4&ndash;88.5% for ITS. ITS+ validation macro-F1 levels off after round 2
+(89.25%, 89.29%, 88.65%), so further rounds would add little.</p>
+
+<h3>D. Error Analysis</h3>
+<p>Fig.&nbsp;3 breaks down the seed-0 errors. For the supervised model and ITS, the dominant error is DRUSEN
+predicted as NORMAL (488 and 528 of 1,351 drusen scans, 36.1% and 39.1%), followed by CNV predicted as NORMAL
+(123 and 106 of 733). ITS+ reduces these to 295 (21.8%) and 16 (2.2%). Its seed-0 UGR is 14.9%, against 29.3%
+for the supervised model and 30.4% for ITS. ITS+ pays for this with slightly more false alarms: 85 NORMAL scans
+are called DRUSEN, against 26 for ITS. Confusion between the two diseases is small (36 DRUSEN&rarr;CNV and 46
+CNV&rarr;DRUSEN).</p>
+<p>Averaged over seeds, ITS+ raises drusen recall from 65.1% (ITS) to 73.1% and CNV recall from 84.5% to 92.3%,
+while NORMAL recall stays at 91.5%, and its per-class precision is higher than that of ITS for every class
+(NORMAL 87.3%, DRUSEN 81.9%, CNV 89.7%). The ROC curves (Fig.&nbsp;4) agree: CNV is the easiest class (AUC 0.983)
+and DRUSEN the hardest (0.935). We see two likely causes. First, small drusen produce only slight bumps of the pigment epithelium, which are hard to see after
+down-sampling the scan to 224 pixels. Second, the labels are per B-scan, so slices at the edge of a drusen region
+look almost normal; part of this error is therefore label ambiguity rather than model failure.</p>
+
+<figure class="wide"><img src="../outputs/08_confusions.png" style="width:68%">
+<figcaption>Fig. 3. Test confusion matrices, seed 0 (rows: true class; columns: predicted class) for the supervised
+model, ITS and ITS+.</figcaption></figure>
+
+<figure class="wide"><img src="../outputs/12_roc_curves.png" style="width:48%">
+<figcaption>Fig. 4. Test ROC curves, seed 0: one-vs-rest per class for ITS+ (left) and macro-average per model
+(right).</figcaption></figure>
+
+<h3>E. Unsupervised Clusters</h3>
+<p>In the PCA projection of ImageNet features (Fig.&nbsp;5) the three classes overlap heavily, and the k-means
+clusters divide the plane into three regions that do not follow the class boundaries. Generic image features
+therefore do not separate the diseases by themselves (50.62% accuracy, close to always predicting NORMAL at
+51.8%). Some labelled supervision is necessary, and SSL makes the most of a small amount of it.</p>
+
+<figure class="wide"><img src="../outputs/12_clusters.png" style="width:63%">
+<figcaption>Fig. 5. Unsupervised reference: test scans projected on the first two principal components, coloured by
+true class (left) and by k-means cluster (middle), and the cumulative variance retained by PCA (right).</figcaption></figure>
+
+
+<h2>VII. Limitations and Future Work</h2>
+<ul class="ieee">
+<li><i>Variance across labelled subsets.</i> ITS+ accuracy ranges from 82.94% to 88.60% across seeds; which 25
+patients are labelled matters about as much as most components. About one drusen scan in five is still
+called NORMAL.</li>
+<li><i>Simplifications.</i> A 5-scan average replaces the Transformer context teacher of [2], and its
+risk-control and cost-matrix steps are not implemented. Training is capped at 30 epochs.</li>
+<li><i>Scope.</i> One dataset, one label fraction and scan-level evaluation only. \(\tau_{lo}\), \(\tau_{hi}\),
+\(\tau_f\) and the window were taken from [2] and the ramp shape from [3], not tuned by cross-validation.</li>
+<li><i>Future work.</i> Run 5% and 20% label fractions for direct comparison with [1], [2]; combine the B-scan
+predictions of a volume into one eye-level diagnosis; try a moving-average (EMA) teacher and the cost-sensitive
+admission of [2]; use test-time augmentation and a higher input resolution for small drusen; and test on an
+external OCT dataset.</li>
+</ul>
+
+<h2>VIII. Conclusion</h2>
+<p>With labels for only 10% of the training patients, iterative teacher&ndash;student pseudo-labelling improves on
+supervised training. ITS+ reaches 85.90% accuracy, 85.64% macro-F1 and a 14.64% under-grading rate over three
+seeds, against 82.15%, 81.03% and 20.84% for ITS. The hierarchical classifier is the most effective addition, the
+gain comes with more accurate pseudo-labels (91.47% vs. 87.31%), and most remaining errors are subtle drusen.</p>
+
+</div>
+
+<div class="pb"></div>
+<div class="cols refs">
+<h2 style="margin-top:0">References</h2>
+<p><span class="n">[1]</span>A. Alizadeh, A. Alenezi, N. Khakestari, Y. Amizadeh, and A. Jodeiri, &ldquo;Investigating the impact of semi-supervised learning methods to improve the quality of diagnosis of retinal diseases from OCT images,&rdquo; <i>Diagnostics</i>, vol. 16, no. 5, Art. no. 656, 2026, doi: 10.3390/diagnostics16050656.</p>
+<p><span class="n">[2]</span>M. A. H. Akash, S. Afroge, A. Al Mamun, M. K. Morol, and T. H. Liew, &ldquo;TRIAGE: Risk-controlled pseudo-label admission for annotation-efficient semi-supervised retinal OCT classification,&rdquo; arXiv:2608.14321, Aug. 2026.</p>
+<p><span class="n">[3]</span>Z. Tan, Q. Zhang, G. Lan, J. Xu, C. Ou, L. An, J. Qin, and Y. Huang, &ldquo;OCT retinopathy classification via a semi-supervised pseudo-label sub-domain adaptation and fine-tuning method,&rdquo; <i>Mathematics</i>, vol. 12, no. 2, Art. no. 347, 2024, doi: 10.3390/math12020347.</p>
+<p><span class="n">[4]</span>S. Sotoudeh-Paima, F. Hajizadeh, and H. Soltanian-Zadeh, &ldquo;Labeled retinal optical coherence tomography dataset for classification of normal, drusen, and CNV cases,&rdquo; Mendeley Data, V1, 2021, doi: 10.17632/8kt969dhx6.1.</p>
+<p><span class="n">[5]</span>M. Tan and Q. V. Le, &ldquo;EfficientNet: Rethinking model scaling for convolutional neural networks,&rdquo; in <i>Proc. 36th Int. Conf. Mach. Learn. (ICML)</i>, 2019, pp. 6105&ndash;6114.</p>
+<p><span class="n">[6]</span>D.-H. Lee, &ldquo;Pseudo-label: The simple and efficient semi-supervised learning method for deep neural networks,&rdquo; in <i>Proc. ICML Workshop Challenges Represent. Learn.</i>, 2013.</p>
+<p><span class="n">[7]</span>K. Sohn <i>et al.</i>, &ldquo;FixMatch: Simplifying semi-supervised learning with consistency and confidence,&rdquo; in <i>Adv. Neural Inf. Process. Syst. (NeurIPS)</i>, vol. 33, 2020, pp. 596&ndash;608.</p>
+<p><span class="n">[8]</span>B. Zhang <i>et al.</i>, &ldquo;FlexMatch: Boosting semi-supervised learning with curriculum pseudo labeling,&rdquo; in <i>Adv. Neural Inf. Process. Syst. (NeurIPS)</i>, vol. 34, 2021, pp. 18408&ndash;18419.</p>
+<p><span class="n">[9]</span>Q. Xie, M.-T. Luong, E. Hovy, and Q. V. Le, &ldquo;Self-training with noisy student improves ImageNet classification,&rdquo; in <i>Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recognit. (CVPR)</i>, 2020, pp. 10687&ndash;10698.</p>
+<p><span class="n">[10]</span>D. P. Kingma and J. Ba, &ldquo;Adam: A method for stochastic optimization,&rdquo; in <i>Proc. Int. Conf. Learn. Represent. (ICLR)</i>, 2015.</p>
+<p><span class="n">[11]</span>T. DeVries and G. W. Taylor, &ldquo;Improved regularization of convolutional neural networks with cutout,&rdquo; arXiv:1708.04552, 2017.</p>
+<p><span class="n">[12]</span>N. Otsu, &ldquo;A threshold selection method from gray-level histograms,&rdquo; <i>IEEE Trans. Syst., Man, Cybern.</i>, vol. SMC-9, no. 1, pp. 62&ndash;66, Jan. 1979.</p>
+<p><span class="n">[13]</span>D. S. Kermany <i>et al.</i>, &ldquo;Identifying medical diagnoses and treatable diseases by image-based deep learning,&rdquo; <i>Cell</i>, vol. 172, no. 5, pp. 1122&ndash;1131, 2018.</p>
+<p class="avail" style="padding-left:0"><i>Code and data availability:</i> code, trained checkpoints and the preprocessed dataset are at
+github.com/sidharthravary/Hierarchical-Teacher-Student-Pseudo-Labelling-for-Semi-Supervised-Retinal-OCT-Classification
+(release v1.0).</p>
+</div>
+</body>
+</html>

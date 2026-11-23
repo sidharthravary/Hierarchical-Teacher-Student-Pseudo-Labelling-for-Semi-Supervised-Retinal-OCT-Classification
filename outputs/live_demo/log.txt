@@ -1,0 +1,43 @@
+=== LIVE DEMO: one teacher-student round, 3 epochs x 60 batches, seed 0 ===
+device: cuda (NVIDIA GeForce RTX 3050 4GB Laptop GPU)
+labelled 940 {'NORMAL': 466, 'DRUSEN': 276, 'CNV': 198} | unlabelled pool 8933 | val 2396 | test 4326
+
+[1] teacher loaded from outputs/runs/supervised_hier_f010_s0/best.pt (validation macro-F1 0.8282)
+[2] teacher pseudo-labelled the unlabelled pool: thresholds NORMAL/DRUSEN/CNV = 0.980/0.973/0.958
+    admitted 6906 of 8933 scans (77.3%), of which 438 partial ('abnormal, type unknown'); full-label precision 0.9037
+
+[3] training the student live: each batch = 20 labelled (weak augmentation) + 44 pseudo-labelled (strong augmentation); pseudo-label loss weight ramps 0 -> 1
+    epoch  1  loss 0.4495  val acc 0.6511  val macro-F1 0.6822 *  lr 1e-03  44s
+    epoch  2  loss 0.3789  val acc 0.7951  val macro-F1 0.7922 *  lr 1e-03  22s
+    epoch  3  loss 0.3859  val acc 0.8326  val macro-F1 0.8359 *  lr 1e-03  21s
+
+[4] best epoch = 3 (validation macro-F1 0.8359) -> checkpoint saved: outputs/live_demo/best_model.pt (15.6 MB)
+[5] checkpoint reloaded from disk: outputs/live_demo/best_model.pt
+
+  TEST RESULTS - live-demo student (best epoch 3), 4326 unseen test scans
+    accuracy 0.8257 | macro-F1 0.8201 | macro-AUC 0.9310 | under-grading rate 0.1536
+    class     precision   recall
+    NORMAL        0.860    0.877
+    DRUSEN        0.746    0.731
+    CNV           0.864    0.843
+    confusion matrix (rows = true, columns = predicted):
+              NORMAL  DRUSEN     CNV
+      NORMAL    1966     266      10
+      DRUSEN     276     988      87
+         CNV      44      71     618
+
+[6] stored best checkpoint of the full experiment: outputs/runs/its_plus_f010_s0/best.pt (best round 3)
+
+  TEST RESULTS - full ITS+ model (4 rounds, early stopping)
+    accuracy 0.8860 | macro-F1 0.8834 | macro-AUC 0.9581 | under-grading rate 0.1492
+    class     precision   recall
+    NORMAL        0.873    0.955
+    DRUSEN        0.886    0.755
+    CNV           0.929    0.915
+    confusion matrix (rows = true, columns = predicted):
+              NORMAL  DRUSEN     CNV
+      NORMAL    2142      85      15
+      DRUSEN     295    1020      36
+         CNV      16      46     671
+
+[7] saved outputs/live_demo/training_curves.png and history.csv  (total time 2.2 min)

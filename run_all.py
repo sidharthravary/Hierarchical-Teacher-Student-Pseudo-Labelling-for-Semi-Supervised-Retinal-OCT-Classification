@@ -53,6 +53,7 @@ def main():
     step("09_make_notebook.py")
     step("10_unsupervised.py", done=out / "unsupervised_results.csv")
     step("11_comparison.py")
+    step("12_extra_figures.py")
 
 
 if __name__ == "__main__":

@@ -22,9 +22,12 @@ data/ (images.npy, index.csv, ...)   ▼
 09_make_notebook.py ─► results.ipynb (executed)
 10_unsupervised.py ─► outputs/unsupervised_results.csv   (k-means reference)
 11_comparison.py ─► COMPARISON.md
+12_extra_figures.py ─► training curves, ROC curves, per-class scores, cluster plot, method diagram
 
-run_all.py runs 01 → 11 in order and skips anything already finished.
-demo.py loads the saved models and prints the test results in the terminal.
+run_all.py runs 01 → 12 in order and skips anything already finished.
+demo.py loads the saved best checkpoints and prints the test results in the terminal.
+live_demo.py trains a student live for a few epochs, saves the best checkpoint, reloads it and benchmarks it on the test set.
+00_build_images.py rebuilds data/images.npy from the raw NEH_UT_2021 download (only needed if images.npy is missing).
 ```
 
 ## 2. Files
@@ -45,6 +48,9 @@ demo.py loads the saved models and prints the test results in the terminal.
 | [09_make_notebook.py](09_make_notebook.py) | Builds and runs a notebook with the demo, tables, figures and logs, so it opens with outputs already shown | `results.ipynb` |
 | [10_unsupervised.py](10_unsupervised.py) | Unsupervised reference: ImageNet EfficientNet-B0 features → PCA (50) → k-means (3 clusters), no training labels; validation labels only name the clusters | `outputs/unsupervised_results.csv`, `outputs/10_unsupervised.txt` |
 | [11_comparison.py](11_comparison.py) | Builds the full comparison page: all models, per seed, per class, ablation, pseudo-label quality, published results, supervised vs unsupervised vs semi-supervised | `COMPARISON.md` |
+| [12_extra_figures.py](12_extra_figures.py) | Training-loss and validation curves per round (parsed from the logs), ROC curves, per-class precision / recall / F1, PCA + k-means cluster plot with variance retained, method diagram | `outputs/12_*.png` |
+| [live_demo.py](live_demo.py) | Live demonstration: teacher pseudo-labels the pool, a student trains for a few epochs (`--epochs`, `--steps`), the best epoch is saved as `outputs/live_demo/best_model.pt`, reloaded and benchmarked on the unseen test set together with the stored best ITS+ checkpoint | `outputs/live_demo/` |
+| [00_build_images.py](00_build_images.py) | Rebuilds `data/images.npy` from the raw dataset folder or zip (grayscale, scale-bar mask, retina crop, 224 x 224) | `data/images.npy` |
 | [demo.py](demo.py) | Terminal demo: loads the supervised, ITS and ITS+ models for one seed, classifies the test set, prints the comparison, the ITS+ confusion matrix and ten example predictions. Trains nothing | printed output |
 | [run_all.py](run_all.py) | Runs the whole pipeline in order; flags `--seeds`, `--fractions`, `--ablation`, `--reference` | – |
 
